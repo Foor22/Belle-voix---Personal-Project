@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="suggestion">
+	<select id="list" resultType="suggestion.dto.SuggestionDTO">
+		select *
+		from (
+		    select A.*, rownum as rn
+		    from (
+					select num,writer,subject,reg_date,readcount
+					    ,filename,filesize,down,re_level
+					    ,(select count(*) from suggestion_comment 
+					        where suggestion_num=num) comment_count, show
+					from suggestion
+					order by ref desc, re_step
+		    ) A
+		)
+		where rn between #{start} and #{end} 
+	</select>
+	
+	<insert id="insert">
+		insert into suggestion (num,writer,subject,passwd,ref,re_step,re_level,content,ip,filename,filesize) 
+		values 
+		( (select nvl(max(num)+1,1) from suggestion) 
+  		, #{writer}, #{subject}, #{passwd}
+  		,(select nvl(max(num)+1,1) from suggestion)
+  		,1 , 0, #{content}, #{ip}, #{filename}, #{filesize})
+	</insert>
+	
+	<select id="getFileName" resultType="String">
+		select filename 
+		from suggestion 
+		where num=#{num}
+	</select>
+	
+	<update id="plusDown">
+		update suggestion set down=down+1 where num=#{num}
+	</update>
+	
+	<select id="view" resultType="suggestion.dto.SuggestionDTO">
+		select * from suggestion
+		where num=#{num}
+	</select>
+	
+	<update id="plusReadCount">
+		update suggestion set readcount=readcount+1 where num=#{num}
+	</update>
+	
+	<select id="commentList" resultType="suggestion.dto.SuggestionCommentDTO">
+		select * from suggestion_comment
+		where suggestion_num=#{num}
+		order by reg_date
+	</select>
+	
+	<insert id="commentAdd">
+		insert into suggestion_comment
+		(comment_num,suggestion_num,writer,content) values
+		((select nvl(max(comment_num)+1,1) from suggestion_comment)
+		, #{suggestion_num}, #{writer}, #{content})
+	</insert>
+	
+	<delete id="commentDlt">
+		delete from suggestion_comment 
+		where comment_num=#{comment_num} 
+		and suggestion_num=#{suggestion_num} 
+		and writer=#{writer}
+	</delete>
+	
+	<delete id="commentAllDlt">
+		delete from suggestion_comment 
+		where suggestion_num=#{num}
+	</delete>
+	
+	<select id="pass_check" resultType="String">
+		select passwd from suggestion
+		where num=#{num} and passwd=#{passwd}
+	</select>
+	
+	<update id="update">
+		update suggestion
+		set writer=#{writer}, subject=#{subject}
+   		, content=#{content}, passwd=#{passwd}
+   		, filename=#{filename}, filesize=#{filesize}, down=#{down} 
+		where num=#{num}
+	</update>
+	
+	<delete id="delete">
+		delete from suggestion where num=#{num}
+	</delete>
+	
+	<!-- count(*)로 인해 사용하지 않음
+	<select id="getMaxNum" resultType="int">
+		select max(num) from suggestion
+	</select> -->
+	
+	<update id="updateNum">
+		update suggestion
+		set num=#{num}-1
+		where num=#{num}
+	</update>
+	
+	<select id="searchList" resultType="suggestion.dto.SuggestionDTO">
+		select num,writer,subject,reg_date,readcount,filename,filesize,down,re_level
+		,(select count(*) from suggestion_comment where suggestion_num=num) comment_count, show 
+		from suggestion
+		<choose>
+			<when test="search_option != 'all'">
+				where ${search_option} like #{keyword} and show='y'
+			</when>
+			<otherwise>
+				where (writer like #{keyword}
+				or subject like #{keyword} 
+				or content like #{keyword})
+				and show='y'
+			</otherwise>
+		</choose>
+		order by ref desc, re_step asc
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from suggestion
+	</select>
+	
+</mapper>

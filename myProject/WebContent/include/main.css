@@ -1,0 +1,411 @@
+@charset "UTF-8";
+
+/* 전체 페이지 공통 */
+body {
+	margin: 0px;
+}
+
+/* 페이지 너비 설정 */
+#wrap {
+	width: 1100px;
+	margin: 0 auto;
+	font-family: "Berlin Sans FB", "맑은 고딕", serif;
+}
+
+/*-------------------- 헤더 파트 --------------------*/
+
+#head_wrap {
+	border-bottom: 1px solid black;
+	width: 100%;
+	height: 195px;
+	font: inherit;
+}
+
+#head_wrap a {
+	text-decoration: none;
+}
+
+/* 시계 */
+#clock {
+	margin: 0px 5px;
+	font-size: 13px;
+	float: right;
+}
+
+/* 페이지 아이콘 */
+#head_wrap h1 {
+	padding: 0px;
+	margin: 0px;
+	font-size: 80px;
+}
+#head_wrap h1 a {
+	color: #ac7339;
+}
+
+/* 메인화면 아이콘과 검색창 */
+#head_front {
+	margin: 10px 30px 5px 30px;
+	padding: 10px 20px;
+	height: 110px;
+}
+
+/* 헤더 메뉴 */
+.menu {
+	width: 100%;
+	height: 60px;
+}
+
+.menu ul {
+	margin: 0px 30px;
+	padding: 0px 20px;
+}
+
+.menu li {
+	list-style-type: none;
+	display: block;
+	float: left;
+	
+	width: auto;
+	height: auto;
+	margin: 15.5px 50px 0 0;
+	padding-bottom: 17.5px;
+	
+	text-align: center;
+	font: inherit;
+	font-size: 18.5px;
+	font-weight: bold;
+}
+
+.menu a {
+	color: black;
+}
+
+.menu a:hover {
+	color: #ac7339;
+}
+
+/* 상단 로그인/로그아웃 파트 */
+#h_log ul {
+	display: table;
+	float: right;
+	margin: 0 auto;
+	padding: 0;
+	font-size: 13px;
+}
+#h_log li {
+	display: inline-block;
+	list-style-type: none;
+	padding: 0px 2px 0px 1px;
+	cursor: pointer;
+}
+
+/*-------------------- 컨텐츠 파트 --------------------*/
+
+/* 컨텐츠 랩 설정 */
+#cont_wrap {
+	clear: both;
+	width: 100%;
+	height: auto;
+}
+
+/* 첫번째 컨텐츠 랩 */
+#cont_1_wrap {
+	width: auto;
+	height: 400px;
+	padding: 40px 50px 0px 50px;
+}
+/* 컨텐츠 랩 오늘의 추천 노래 파트 */
+#cont_1_wrap section {
+	width: 680px;
+	float: left;
+}
+#cont_1_wrap section h3 {
+	margin: 0px 0px 25px 0px;
+}
+#cont_1_wrap section ul {
+	margin: 10px auto;
+	padding: 0;
+}
+#cont_1_wrap section ul li {
+	list-style-type: none;
+	display: inline-block;
+}
+/* 오늘의 추천 노래 파트 꾸미기 */
+.reco {
+	position: relative;
+}
+.reco > div {
+	position: absolute;	/* 겹치게 하기 */
+	bottom: 1px;
+	z-index: 1;
+	width: 166px;
+	height: 25px;
+	background-color: gray;
+	background-color: rgba(0,0,0,0.35);	/* 배경 투명하게 하기 */
+	text-align: center;
+}
+.reco a {
+	color: white;
+	text-decoration: none;
+}
+.reco a:hover {
+	text-decoration: underline;
+}
+/* 화면 overlay */
+#overlay1, #overlay2, #overlay3, #overlay4, #overlay5, #overlay6, #overlay7, #overlay8 {
+	position: absolute; /* div 겹치게 하기 */
+	width: 100%;
+	height:100%;
+	background-color: rgba(0,0,0,0.3);
+	cursor: pointer;
+	display: none;
+}
+
+/* 컨텐츠 랩 로그인 파트 */
+#cont_1_wrap aside {
+	width: auto;
+	height: auto;
+	float: right;
+	padding-top: 50px;
+}
+#login_P {
+	background: #f2f2f2;
+	float: right;
+	width: 280px;
+	height: 120px;
+	border: 1px solid black;
+}
+#cont_1_wrap button {
+	text-align: center;
+}
+#cont_1_wrap aside a, #cont_1_wrap aside a:active {
+	text-decoration: none;
+	color: black;
+}
+#cont_1_wrap aside a:hover {
+	text-decoration: underline;
+}
+
+/* 로그인 전 폼 */
+
+/* 로그인 버튼 블럭 */
+#btnLogin {
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	width: 244px;
+	height: 40px;
+	background: #996633;
+	color: white;
+	font-size: 15px;
+	border-style: outset;
+	border-color: lightgray;
+}
+#btnLogin:hover, #btnLogin:active {
+	background: #b37700;
+	color: #e6e6e6;
+	border-style: inset;
+	cursor: pointer;
+}
+/* 회원가입 */
+#join {
+	margin: 0 auto;
+	padding: 30px 0px 5px 0px;
+	width: 244px;
+	height: 20px;
+	font-size: 12px;
+}
+#join > p {
+	margin: 0;
+	float: left;
+}
+#join > a {
+	float: right;
+	cursor: pointer;
+}
+
+/* 로그인 후 폼 */
+
+/* 로그아웃 */
+#leave {
+	margin: 0 auto;
+	padding: 30px 0px 5px 0px;
+	width: 244px;
+	height: 20px;
+	font-size: 12px;
+}
+#leave p {
+	margin-left: 10px;
+	display: inline;
+}
+#leave a {
+	margin-right: 10px;
+	float: right;
+}
+#leave a:hover {
+	cursor: pointer;
+}
+
+/* 내 정보 및 내 컬렉션 */
+#mine {
+	clear: both;
+	margin: 20px auto 0px;
+	width: 244px;
+	height: 45px;
+	font: inherit;
+	font-size: 15px;
+	text-align: center;
+	
+}
+#mine span {
+	margin: 0px 5px 0px 5px;
+}
+
+
+/* 두 번째 컨텐츠 랩  */
+#cont_2_wrap {
+	width: auto;
+	height: 550px;
+	padding: 20px 40px 0px 40px;
+}
+
+/* 두 번째 컨텐츠 랩 오늘의 추천 플레이리스트 파트 */
+#cont_2_wrap section {
+	width: 100%;
+}
+#cont_2_wrap section h3 {
+	margin: 10px;
+}
+#cont_2_wrap section ul {
+	margin: 0 auto;
+	padding: 0;
+}
+#cont_2_wrap section ul li {
+	list-style-type: none;
+	display: inline-block;
+}
+#cont_2_wrap section ul li p {
+	margin: 0 10px;
+}
+
+/* 오늘의 추천 플레이리스트 파트 정리 */
+.pl_cont {
+	border: 1px solid black;
+	margin: 15px 8px 5px 10px;
+	width: 317px;
+}
+
+/* 플레이리스트 iframe 영상 크기 조정 */
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%;	/* 560:315 = 100:x 계산하면 x의 값은 56.25 */
+	padding-top: 30px;
+	height: 0;
+	overflow: visible;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* 세 번째 컨텐츠 랩  */
+#cont_3_wrap {
+	width: auto;
+	height: 600px;
+	padding: 25px 50px 0px 50px;
+}
+
+/* 세 번째 컨텐츠 랩 실시간 스트리밍 파트s */
+#cont_3_wrap section {
+	width: 100%;
+	height: auto;
+}
+#cont_3_wrap section h3 {
+	margin: 0;
+	float: left;
+}
+
+/* 실시간 차트 iframe transition */
+#t_form {
+	clear: both;
+	margin: 25px auto 15px;
+	width: 100%; height: 500px;
+	border: 1px inset lightgray;
+	background: white;
+	overflow: hidden;
+	transition: width 1s, height 1s;
+}
+
+/* 실시간 차트 사이트 변경 */
+.stream {
+	display: table;
+	float: right;
+	margin: 0 auto;
+	padding: 0;
+}
+.stream li {
+	display: inline-block;
+	list-style-type: none;
+	width: 6em;
+	height: 1.5em;
+	text-align: center;
+	border: 1px #818181 solid;
+	box-shadow: 5px 5px 10px #bbb;
+	cursor: pointer;
+}
+.stream li p {
+	margin: 0 auto;
+	display: block;
+	padding: 3px 2px 2px 2px;
+	color: #292929;
+	text-decoration: none;
+	text-shadow: 2px 2px 1px #cccccc;
+}
+.stream li:first-child {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.stream li:last-child {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.stream li:hover {
+	background: gray;
+}
+.stream li:hover > p, .stream li:active {
+	color: white;
+	text-shadow: 2px 2px 1px #111;
+}
+
+/*-------------------- 푸터 파트 --------------------*/
+#foot_wrap {
+	width: 100%;
+	height: 262px;
+	border-top: 1px solid black;
+}
+footer {
+	width: auto;
+	padding: 20px 50px;
+}
+footer h4 {
+	margin: 5px auto 25px auto;
+	text-align: center;
+}
+footer h5{
+	margin: 25px auto 5px auto;
+	text-align: center;
+}
+footer p {
+	margin: 10px;
+	padding: 0 70px;
+}
+strong {
+	background-color: #ac7339;
+	color: white;
+}

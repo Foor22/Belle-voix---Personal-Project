@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+	<select id="list" resultType="notice.dto.NoticeDTO">
+		select *
+		from (
+		    select A.*, rownum as rn
+		    from (
+					select num,writer,subject,reg_date,readcount
+					    ,filename,filesize,down,re_level
+					    ,(select count(*) from notice_comment 
+					        where notice_num=num) comment_count, show
+					from notice
+					order by ref desc, re_step
+		    ) A
+		)
+		where rn between #{start} and #{end} 
+	</select>
+	
+	<insert id="insert">
+		insert into notice (num,writer,subject,ref,re_step,re_level,content,ip,filename,filesize) 
+		values 
+		( (select nvl(max(num)+1,1) from notice) 
+  		, #{writer}, #{subject}
+  		,(select nvl(max(num)+1,1) from notice)
+  		,1 , 0, #{content}, #{ip}, #{filename}, #{filesize})
+	</insert>
+	
+	<select id="getFileName" resultType="String">
+		select filename 
+		from notice 
+		where num=#{num}
+	</select>
+	
+	<update id="plusDown">
+		update notice set down=down+1 where num=#{num}
+	</update>
+	
+	<select id="view" resultType="notice.dto.NoticeDTO">
+		select * from notice
+		where num=#{num}
+	</select>
+	
+	<update id="plusReadCount">
+		update notice set readcount=readcount+1 where num=#{num}
+	</update>
+	
+	<select id="commentList" resultType="notice.dto.NoticeCommentDTO">
+		select * from notice_comment
+		where notice_num=#{num}
+		order by reg_date
+	</select>
+	
+	<insert id="commentAdd">
+		insert into notice_comment 
+		(comment_num,notice_num,writer,comment_ref,comment_re_step,comment_re_level,content) 
+		values
+		((select nvl(max(comment_num)+1,1) from notice_comment)
+		, #{notice_num}, #{writer}, (select nvl(max(comment_num)+1,1) from notice_comment)
+		, 1, 0, #{content})
+	</insert>
+	
+	<delete id="commentDlt">
+		delete from notice_comment 
+		where comment_num=#{comment_num} 
+		and notice_num=#{notice_num} 
+		and writer=#{writer}
+	</delete>
+	
+	<delete id="commentAllDlt">
+		delete from notice_comment 
+		where notice_num=#{num}
+	</delete>
+	
+	<update id="update">
+		update notice
+		set  writer=#{writer}, subject=#{subject}
+   		, content=#{content}, filename=#{filename}
+   		, filesize=#{filesize}, down=#{down} 
+		where num=#{num}
+	</update>
+	
+	<delete id="delete">
+		delete from notice where num=#{num}
+	</delete>
+	
+	<!-- Oracle에서는 update cascade를 지원하지 않기 때문에 trigger를 사용해야 하므로 외래키로 사용중인 컬럼을 업데이트 시킬 수 없다..아쉽...
+		참조 링크 : https://cornswrold.tistory.com/279
+	<update id="setMaxNum">	
+		update notice
+		 set num=(select count(*) from notice) 
+		 where num=(select max(num) from notice)
+	</update> -->
+	
+	<update id="updateNum">
+		update notice
+		set num=#{num}-1
+		where num=#{num}
+	</update>
+	
+	<select id="searchList" resultType="notice.dto.NoticeDTO">
+		select num,writer,subject,reg_date,readcount,filename,filesize,down,re_level
+		,(select count(*) from notice_comment where notice_num=num) comment_count, show 
+		from notice
+		<choose>
+			<when test="search_option != 'all'">
+				where ${search_option} like #{keyword} and show='y'
+			</when>
+			<otherwise>
+				where (writer like #{keyword}
+				or subject like #{keyword} 
+				or content like #{keyword})
+				and show='y'
+			</otherwise>
+		</choose>
+		order by ref desc, re_step asc
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from notice
+	</select>
+	
+</mapper>
