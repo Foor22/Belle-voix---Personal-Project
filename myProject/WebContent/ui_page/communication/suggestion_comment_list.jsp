@@ -23,24 +23,24 @@ button:hover {
 </style>
 <table>
 <c:forEach var="row" items="${list}">
-<script type="text/javascript">
-//댓글 삭제
-function del_${row.comment_num}() {
-	var writer=$(".${row.writer}").val();
-	var c_num=$("#${row.comment_num}").val();
-	var n_num=$(".${row.suggestion_num}").val();
-	var param="writer="+writer+"&c_num="+c_num+"&n_num="+n_num;
-	$.ajax({
-		type : "post",
-		url : "${path}/suggestion_servlet/commentDlt.do",
-		data : param,
-		success : function(){
-			alert('댓글이 삭제되었습니다');
-			comment_list();
-		}
-	});
-}
-</script>
+	<script type="text/javascript">
+	//댓글 삭제
+	function del_${row.comment_num}() {
+		var writer=$(".${row.writer}").val();
+		var c_num=$("#${row.comment_num}").val();
+		var n_num=$(".${row.suggestion_num}").val();
+		var param="writer="+writer+"&c_num="+c_num+"&n_num="+n_num;
+		$.ajax({
+			type : "post",
+			url : "${path}/suggestion_servlet/commentDlt.do",
+			data : param,
+			success : function(){
+				alert('댓글이 삭제되었습니다');
+				comment_list();
+			}
+		});
+	}
+	</script>
 	<tr>
 		<td width="92.5%">
 			<%-- <!-- 답글 들여쓰기 -->
@@ -56,7 +56,7 @@ function del_${row.comment_num}() {
 			<input type="hidden" class="${row.writer}" value="${row.writer}">
 			<input type="hidden" id="${row.comment_num}" value="${row.comment_num}">
 			<input type="hidden" class="${row.suggestion_num}" value="${row.suggestion_num}">
-		<c:if test="${sessionScope.userid != null}">
+		<c:if test="${sessionScope.userid == row.writer || sessionScope.userid == 'dydals3452'}">
 			<button type="button" onclick="del_${row.comment_num}()">삭제</button>
 		</c:if>
 		</td>

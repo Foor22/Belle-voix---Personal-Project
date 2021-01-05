@@ -78,7 +78,7 @@ function comment_add() {
 /*-------------------- 컨텐츠 파트 --------------------*/
 
 #cont_wrap h2, #cont_wrap h4 {
-	margin: 50px auto 40px;
+	margin: 40px auto;
 	text-align: center;
 }
 #cont_wrap h3 {
@@ -222,12 +222,15 @@ button:hover {
 						</tr>
 					</table>
 				</form>
+				<!-- 댓글 폼 -->
+				<hr>
+				<h4>[ 댓글 ]</h4>
+				<!-- 댓글 목록을 출력할 영역 -->
+				<div id="commentList">
 				
+				</div>
 			<!-- 세션이 유지되어 있을때만 댓글달 수 있다. -->
 			<c:if test="${sessionScope.userid != null}">
-				<!-- 댓글 쓰기 폼 -->
-				<hr>
-				<h4>댓글 쓰기</h4>
 				<table>
 					<tr>
 						<td>
@@ -246,10 +249,6 @@ button:hover {
 					</tr>
 				</table>
 			</c:if>
-				<!-- 댓글 목록을 출력할 영역 -->
-				<div id="commentList">
-				
-				</div>
 			</div>
 		</section>
 	</div>
